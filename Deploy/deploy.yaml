@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bikepesquisa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      id: bikepesquisaid
+  template:
+    metadata:
+      labels:
+        id: bikepesquisaid
+    spec:
+      containers:
+        - name: bikepesquisa
+          image: desafio/bikepesquisa:1.0.0
+          ports:
+            - containerPort: 8090
+              protocol: TCP            

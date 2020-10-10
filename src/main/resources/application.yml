@@ -1,0 +1,102 @@
+server:
+  port: 8090
+    
+#eureka:
+#  instance:
+#    instance-id: ${spring.application.name}:${random.value} 
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:5001/eureka
+
+spring:
+  application:
+    name: ctBikePesquisa
+  cloud:
+    kubernetes:
+      discovery:
+        enabled: true
+        service-name: ctBikePesquisa
+      config:
+        enabled: true
+        sources:
+          - namespace: default
+            name: ctBikePesquisa
+      reload:
+        enabled: false
+  jackson:
+    time-zone: America/Sao_Paulo
+
+  database: h2
+  console: true
+  path: /h2
+
+datasource:
+  platform: h2
+  url: jdbc:h2://localhost:9999/h2
+  username: sa
+  password: sa
+  driverClassName: org.h2.Driver
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core:
+            JdbcTemplate: trace
+    com:
+      zaxxer:
+        hikari:
+          HikariConfig: DEBUG
+management:
+  endpoint:
+    beans:
+      enabled: true
+    restart:
+      enabled: true
+    health:
+      show-details: always
+      enabled: true
+      group:
+        liveness:
+          include: ping
+          show-details: never
+        readiness:
+          include: "*"
+          show-details: never
+    info:
+      enabled: true
+
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: health,liveness,readiness      
+          
+    
+#H2
+
+    
+#  cloud:
+#    stream:
+#      bindings:
+#       cargoBookingChannel:
+#         destination: cargoBookings          
+#          binder: rabbit
+#        cargoRoutingChannel:
+#          destination: cargoRoutings         
+#          binder: rabbit
+#        cargoHandlingChannel:
+#          destination: cargoHandling
+#          group: cargoHandlingInBookingQueue
+#          binder: rabbit
+#      binders:
+#        rabbit:
+#          type: rabbit
+#          environment:
+#            spring:
+#              rabbitmq:
+#                host: localhost
+#                port: 5672
+#                username: guest
+#                password: guest
+
